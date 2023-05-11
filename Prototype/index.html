@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }  
+  
+        @media (min-width: 768px) {
+        
+        }
+        .table-responsive{
+            width: 100%;
+            height: 100%;
+        }
+        
+        
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+      
+        .center-label {
+            position: absolute;
+            display: flex;
+            
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            width: 100px;
+            height: 50px;
+            transform: translate(0, 50%);
+            font-size: 23px;
+            color: rgb(110, 110, 110);
+            font-weight: bold;
+            background: #c1d5cc;
+
+        }
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #198754 !important; /* 원하는 호버 색상 코드로 변경하세요. 예: #3498db */
+        }
+
+        .dropdown-item.active {
+            background-color: #198754 !important; /* 원하는 선택됨 색상 코드로 변경하세요. 예: #2c3e50 */
+        }
+
+        
+      </style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<body>
+    <nav id="navbar-example" class="navbar nav-custom mt-2" style="position: fixed;top:0;z-index: 10;width:350px;">
+        <div class="container-fluid" style="display: flex; justify-content: center;">            
+            <div id="navbarNavDropdown bg-success">
+                <ul class="nav nav-pills">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle bg-success text-center" style="width:350px;" data-bs-toggle="dropdown" href="#" role="button" id="navbarDropdown" aria-expanded="false">전체보기</a>
+                        <ul class="dropdown-menu text-center" style="width:350px;" aria-labelledby="navbarDropdown">
+
+                            <li><a class="dropdown-item text-center" href="#list-item-1">전체보기</a></li>
+                            <li><a class="dropdown-item text-center" href="#list-item-2">2022 겨울학기</a></li>
+                        
+                            <li><a class="dropdown-item text-center" href="#list-item-3">2022 2학기</a></li>
+
+                            <li><a class="dropdown-item text-center" href="#list-item-4">2020 1학기</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <div style="margin-top: 2rem;"></div>
+    
+        <div class="col">
+            <div data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                
+                <div id="list-item-1" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
+                    <div class="chart-container">
+                        <canvas id="myChart1"></canvas>
+                        <div class="center-label">4.21</div>
+                    </div>
+
+                    <h2>전체학기</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-dark">            
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">과목</th>
+                                    <th scope="col">학점 수</th>
+                                    <th scope="col">등급</th>
+                                    <th scope="col">점수</th>
+                                    <th scope="col">학점</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">0</th>
+                                    <td>동양철학개론</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>94.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>글쓰기심화</td>
+                                    <td>2</td>
+                                    <td>A+</td>
+                                    <td>92.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>영어회화1</td>
+                                    <td>2</td>
+                                    <td>C+</td>
+                                    <td>92.1</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>지방자치와지방재정</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>97.6</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>웹해킹보안및실습</td>
+                                    <td>3</td>
+                                    <td>A0</td>
+                                    <td>89.2</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>유닉스시스템관제및보안</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>98.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>디바이스드라이버및실습</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>92.2</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">총계</th>
+                                    <th scope="col"> - </th>
+                                    <th scope="col">19</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">93.8</th>
+                                    <th scope="col">4.21</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+
+
+
+
+
+                <div id="list-item-2" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
+                    <div class="chart-container">
+                        <canvas id="myChart2"></canvas>
+                        <div class="center-label">2.44</div>
+                    </div>
+
+                    <h2>2022년도 겨울학기</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-dark">            
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">과목</th>
+                                    <th scope="col">학점 수</th>
+                                    <th scope="col">등급</th>
+                                    <th scope="col">점수</th>
+                                    <th scope="col">학점</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">0</th>
+                                    <td>동양철학개론</td>
+                                    <td>3</td>
+                                    <td>C+</td>
+                                    <td>94.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>글쓰기심화</td>
+                                    <td>2</td>
+                                    <td>B+</td>
+                                    <td>92.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>영어회화1</td>
+                                    <td>2</td>
+                                    <td>C+</td>
+                                    <td>92.1</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>지방자치와지방재정</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>97.6</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>웹해킹보안및실습</td>
+                                    <td>3</td>
+                                    <td>A0</td>
+                                    <td>89.2</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>유닉스시스템관제및보안</td>
+                                    <td>3</td>
+                                    <td>B0</td>
+                                    <td>98.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>디바이스드라이버및실습</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>92.2</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">총계</th>
+                                    <th scope="col"> - </th>
+                                    <th scope="col">19</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">93.8</th>
+                                    <th scope="col">4.21</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+
+
+                
+
+
+
+                <div id="list-item-3" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
+                    <div class="chart-container">
+                        <canvas id="myChart3"></canvas>
+                        <div class="center-label">3.36</div>
+                    </div>
+
+                    <h2>2022년도 2학기</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-dark">            
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">과목</th>
+                                    <th scope="col">학점 수</th>
+                                    <th scope="col">등급</th>
+                                    <th scope="col">점수</th>
+                                    <th scope="col">학점</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">0</th>
+                                    <td>동양철학개론</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>94.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>글쓰기심화</td>
+                                    <td>2</td>
+                                    <td>A+</td>
+                                    <td>92.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>영어회화1</td>
+                                    <td>2</td>
+                                    <td>C+</td>
+                                    <td>92.1</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>지방자치와지방재정</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>97.6</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>웹해킹보안및실습</td>
+                                    <td>3</td>
+                                    <td>A0</td>
+                                    <td>89.2</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>유닉스시스템관제및보안</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>98.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>디바이스드라이버및실습</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>92.2</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">총계</th>
+                                    <th scope="col"> - </th>
+                                    <th scope="col">19</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">93.8</th>
+                                    <th scope="col">4.21</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+
+
+
+
+                <div id="list-item-4" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
+                    <div class="chart-container">
+                        <canvas id="myChart4"></canvas>
+                        <div class="center-label">1.22</div>
+                    </div>
+
+                    <h2>2020년도 1학기</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-dark">            
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">과목</th>
+                                    <th scope="col">학점 수</th>
+                                    <th scope="col">등급</th>
+                                    <th scope="col">점수</th>
+                                    <th scope="col">학점</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">0</th>
+                                    <td>동양철학개론</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>94.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>글쓰기심화</td>
+                                    <td>2</td>
+                                    <td>A+</td>
+                                    <td>92.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>영어회화1</td>
+                                    <td>2</td>
+                                    <td>C+</td>
+                                    <td>92.1</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>지방자치와지방재정</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>97.6</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>웹해킹보안및실습</td>
+                                    <td>3</td>
+                                    <td>A0</td>
+                                    <td>89.2</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>유닉스시스템관제및보안</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>98.5</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>디바이스드라이버및실습</td>
+                                    <td>3</td>
+                                    <td>A+</td>
+                                    <td>92.2</td>
+                                    <td>4.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">총계</th>
+                                    <th scope="col"> - </th>
+                                    <th scope="col">19</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">93.8</th>
+                                    <th scope="col">4.21</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+          
+        </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script>
+        // 커스텀 플러그인 정의
+  
+        // 커스텀 플러그인을 등록
+ 
+        Chart.register(ChartDataLabels);            
+        // Graphs
+        const ctx1 = document.getElementById('myChart1')
+        // eslint-disable-next-line no-unused-vars
+        const myChart1 = new Chart(ctx1, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+            labels: [
+                'A+',
+                'A0',
+                'B+',
+                'B0',
+                'C+',
+                'C0',
+                'D+',
+                'D0',
+                'F',
+            ],
+            datasets: [{
+                data: [
+                5,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                ],
+                lineTension: 0,
+                backgroundColor: [
+                
+                '#8FBA82',
+                '#7BAA81',
+                '#70A181',
+                '#669981',
+                
+
+                '#558B81',
+                '#4C8380',
+
+                '#3B7680',
+                '#347080',
+                '#2C6980',
+                
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+                pointBackgroundColor: '#FFFFFF'
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {                    
+                    datalabels: {
+                      color: '#434343',
+                      font: {
+                        size: 25,
+                        weight: 'bold',
+                        
+                      },
+                      formatter: function (value, context) {
+                        if(value!=0)
+                            return context.chart.data.labels[context.dataIndex];
+                        else
+                            return null;
+                      },
+                    },
+                    
+                },
+                  
+                legend: {
+                    display: true
+                },
+                
+            }
+        });
+        
+        
+        const ctx2 = document.getElementById('myChart2')
+        // eslint-disable-next-line no-unused-vars
+        const myChart2 = new Chart(ctx2, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+            labels: [
+                'A+',
+                'A0',
+                'B+',
+                'B0',
+                'C+',
+                'C0',
+                'D+',
+                'D0',
+                'F',
+            ],
+            datasets: [{
+                data: [
+                5,
+                1,
+                0,
+                0,
+                1,
+                0,
+                4,
+                0,
+                1,
+                ],
+                lineTension: 0,
+                backgroundColor: [
+                
+                '#8FBA82',
+                '#7BAA81',
+                '#70A181',
+                '#669981',
+                
+
+                '#558B81',
+                '#4C8380',
+
+                '#3B7680',
+                '#347080',
+                '#2C6980',
+                
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+                pointBackgroundColor: '#FFFFFF'
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {                    
+                    datalabels: {
+                      color: '#434343',
+                      font: {
+                        size: 25,
+                        weight: 'bold',
+                        
+                      },
+                      formatter: function (value, context) {
+                        if(value!=0)
+                            return context.chart.data.labels[context.dataIndex];
+                        else
+                            return null;
+                      },
+                    },
+                    
+                },
+                  
+                legend: {
+                    display: true
+                },
+                
+            }
+        });
+
+
+        const ctx3 = document.getElementById('myChart3')
+        // eslint-disable-next-line no-unused-vars
+        const myChart3 = new Chart(ctx3, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+            labels: [
+                'A+',
+                'A0',
+                'B+',
+                'B0',
+                'C+',
+                'C0',
+                'D+',
+                'D0',
+                'F',
+            ],
+            datasets: [{
+                data: [
+                5,
+                1,
+                0,
+                3,
+                1,
+                0,
+                0,
+                0,
+                0,
+                ],
+                lineTension: 0,
+                backgroundColor: [
+                
+                '#8FBA82',
+                '#7BAA81',
+                '#70A181',
+                '#669981',
+                
+
+                '#558B81',
+                '#4C8380',
+
+                '#3B7680',
+                '#347080',
+                '#2C6980',
+                
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+                pointBackgroundColor: '#FFFFFF'
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {                    
+                    datalabels: {
+                      color: '#434343',
+                      font: {
+                        size: 25,
+                        weight: 'bold',
+                        
+                      },
+                      formatter: function (value, context) {
+                        if(value!=0)
+                            return context.chart.data.labels[context.dataIndex];
+                        else
+                            return null;
+                      },
+                    },
+                    
+                },
+                  
+                legend: {
+                    display: true
+                },
+                
+            }
+        });
+
+
+        const ctx4 = document.getElementById('myChart4')
+        // eslint-disable-next-line no-unused-vars
+        const myChart4 = new Chart(ctx4, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+            labels: [
+                'A+',
+                'A0',
+                'B+',
+                'B0',
+                'C+',
+                'C0',
+                'D+',
+                'D0',
+                'F',
+            ],
+            datasets: [{
+                data: [
+                5,
+                1,
+                0,
+                5,
+                1,
+                4,
+                0,
+                0,
+                0,
+                ],
+                lineTension: 0,
+                backgroundColor: [
+                
+                '#8FBA82',
+                '#7BAA81',
+                '#70A181',
+                '#669981',
+                
+
+                '#558B81',
+                '#4C8380',
+
+                '#3B7680',
+                '#347080',
+                '#2C6980',
+                
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+                pointBackgroundColor: '#FFFFFF'
+            }]
+            },
+            options: {
+                cutoutPercentage: 50,
+                plugins: {                    
+                    datalabels: {
+                      color: '#434343',
+                      font: {
+                        size: 25,
+                        weight: 'bold',
+                        
+                      },
+                      formatter: function (value, context) {
+                        if(value!=0)
+                            return context.chart.data.labels[context.dataIndex];
+                        else
+                            return null;
+                      },
+                    },
+                    
+                },
+                  
+                legend: {
+                    display: true
+                },
+                
+            }
+        });
+    </script>
+    <script>
+        const navbarDropdown = document.getElementById('navbarDropdown');
+        const dropdownItems = document.querySelectorAll('.dropdown-menu a');
+    
+        function updateDropdownText() {
+          const scrollPosition = window.scrollY;
+          let activeSection = null;
+          
+          for (const item of dropdownItems) {
+            const section = document.querySelector(item.getAttribute('href'));
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            const sectionMid = (sectionTop + sectionBottom) /2;
+            
+
+            
+            if (scrollPosition >= sectionTop - sectionMid && scrollPosition < sectionMid) {
+              activeSection = item.textContent;
+              break;
+            }
+          }
+    
+          if (activeSection) {
+            navbarDropdown.textContent = activeSection;
+          }
+        }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+          updateDropdownText();
+          window.addEventListener('scroll', updateDropdownText);
+        });
+    
+        </script>
+</body>
+</html>
