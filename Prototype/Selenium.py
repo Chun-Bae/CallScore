@@ -13,14 +13,25 @@ from tabulate import tabulate
 from bs4 import BeautifulSoup
 import re
 
+
+
+
 import time
+from dotenv import load_dotenv
+import os 
+
+# load .env
+load_dotenv()
+
+sid = os.environ.get('STUDENT_ID')
+spassword = os.environ.get('PASSWORD')
 
 options = Options()
 options.add_experimental_option("detach", True)  # 브라우저 바로 닫힘 방지
 options.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 메시지 제거
 options.add_argument('--blink-settings=imagesEnabled=false')
 options.headless = False
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
+options.add_argument("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 
 driver = webdriver.Chrome()
 
@@ -35,8 +46,8 @@ driver.maximize_window()
 #### 포탈 접속 입력 ####
 i_d = driver.find_element(By.CLASS_NAME, "id_input1")
 password = driver.find_element(By.CLASS_NAME, "id_input2")
-i_d.send_keys("학번")
-password.send_keys("아이디")
+i_d.send_keys(sid)
+password.send_keys(spassword)
 password.send_keys(Keys.ENTER)
 ######################
 time.sleep(1)
@@ -65,7 +76,7 @@ WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID,"mainframe
 time.sleep(2)
 ############################
 
-with open("test.html", "w", encoding="utf8") as f:
+with open("crypto.html", "w", encoding="utf8") as f:
     f.write(driver.page_source)
     
 ############################
