@@ -30,7 +30,8 @@ options = Options()
 options.add_experimental_option("detach", True)  # 브라우저 바로 닫힘 방지
 options.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 메시지 제거
 options.add_argument('--blink-settings=imagesEnabled=false')
-options.headless = False
+options.add_argument("window-size=1920x1080")
+options.headless = True
 options.add_argument("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
 
 driver = webdriver.Chrome()
@@ -86,14 +87,30 @@ soup = BeautifulSoup(driver.page_source, "lxml")
 seeing_list = ["classification", "class_num", "subject", "div_class", "credit", "grade", "score", "rating"]
 figure_list = ["req_credit","acq_creidt","rating_cnt","rating_avg","r_scores","r_scores_avg","per_score"]
 
-for i in range(3):
+
+
+for i in range(16):
     seeing = {}    
     ###############성적표 찾기#################      
-    for j in range(8):
-        finds_text = soup.find_all(id=re.compile('INFODIV01_INFODIV01_DG_GRID0{0}_body_gridrow_._cell_._{1}GridCellTextContainerElement'.format(i,j)))
-        seeing['{}'.format(seeing_list[j])] = [find_text.get_text().strip() for find_text in finds_text]
-    ###############학기 이름 찾기#################     
-    finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Title0{}TextBox'.format(i))).get_text().strip().split(" ")
+    for j in range(12):
+        try:
+            
+            finds_text = soup.find_all(id=re.compile('INFODIV01_INFODIV01_DG_GRID{0}_body_gridrow_._cell_._{1}GridCellTextContainerElement'.format(str(i).zfill(2),j)))
+            
+            seeing['{}'.format(seeing_list[j])] = [find_text.get_text().strip() for find_text in finds_text]
+           
+        except:
+            print("과목 끝")
+            break
+    ###############학기 이름 찾기#################   
+    print(seeing)
+    try:
+        finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Title{}TextBox'.format(str(i).zfill(2)))).get_text().strip().split(" ")
+    except:
+        print("학기 이름 끝")
+        break
+    
+    
     pattern1 = re.compile("\d\d\d\d")
     pattern2 = re.compile("[^학기정규<>]+")    
 
@@ -110,7 +127,7 @@ for i in range(3):
     ###############전체 수치#################
     globals()['sem_{0}_{1}_figure'.format(a,b)] = {}
     
-    finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Sum0{}TextBoxElement'.format(i))).get_text().replace(" ","").split("*")
+    finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Sum{}TextBoxElement'.format(str(i).zfill(2)))).get_text().replace(" ","").split("*")
     finds_text = list(filter(None, finds_text))
     for k in range(len(finds_text)):        
         pattern1 = re.compile("\d+.\d+")
