@@ -141,6 +141,6 @@ for i in range(16):
 
     print(tabulate(DataFrame(seeing) , headers='keys', tablefmt='psql', showindex=True))
 
-    
+os.remove('crypto.html') # 해쉬파일로 바꾸기 (배포시 구분용)
 
 
