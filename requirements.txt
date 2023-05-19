@@ -1,0 +1,4 @@
+Pillow<10
+selenium
+beautifulsoup4
+lxml
