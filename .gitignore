@@ -1,5 +1,6 @@
 #my ignore
 crypto.html
+*.idea
 
 #user file
 /media
