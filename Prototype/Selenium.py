@@ -84,20 +84,19 @@ def getScore():
 
     soup = BeautifulSoup(driver.page_source, "lxml")
         
-    seeing_list = ["classification", "class_num", "subject", "div_class", "credit", "grade", "score", "rating"]
-    figure_list = ["req_credit","acq_creidt","rating_cnt","rating_avg","r_scores","r_scores_avg","per_score"]
+    semester = ["classification", "class_num", "subject", "div_class", "credit", "grade", "score", "rating"]
+    figure = ["req_credit","acq_creidt","rating_cnt","rating_avg","r_scores","r_scores_avg","per_score"]
 
-
+    seeing = {}
 
     for i in range(16):
-        seeing = {}    
         ###############성적표 찾기#################      
         for j in range(12):
             try:
                 
                 finds_text = soup.find_all(id=re.compile('INFODIV01_INFODIV01_DG_GRID{0}_body_gridrow_._cell_._{1}GridCellTextContainerElement'.format(str(i).zfill(2),j)))
                 
-                seeing['{}'.format(seeing_list[j])] = [find_text.get_text().strip() for find_text in finds_text]
+                seeing['{}'.format(semester[j])] = [find_text.get_text().strip() for find_text in finds_text]
             
             except:
                 print("과목 끝")
@@ -106,9 +105,11 @@ def getScore():
         print(seeing)
         try:
             finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Title{}TextBox'.format(str(i).zfill(2)))).get_text().strip().split(" ")
+            print(finds_text)
         except:
             print("학기 이름 끝")
             break
+        
         
         
         pattern1 = re.compile("\d\d\d\d")
@@ -128,11 +129,14 @@ def getScore():
         globals()['sem_{0}_{1}_figure'.format(a,b)] = {}
         
         finds_text = soup.find(id=re.compile('INFODIV01_INFODIV01_Sum{}TextBoxElement'.format(str(i).zfill(2)))).get_text().replace(" ","").split("*")
+        
         finds_text = list(filter(None, finds_text))
+        
         for k in range(len(finds_text)):        
             pattern1 = re.compile("\d+.\d+")
-            finds_text[k] = pattern1.search(finds_text[k]).group()    
-            globals()['sem_{}_{}_figure'.format(a,b)]['{}'.format(figure_list[k])] = finds_text[k]
+            finds_text[k] = pattern1.search(finds_text[k]).group()   
+            print(finds_text[k])
+            globals()['sem_{}_{}_figure'.format(a,b)]['{}'.format(figure[k])] = finds_text[k]
         
         print(globals()['sem_{}_{}_figure'.format(a,b)])
         ############### 결과 #################     

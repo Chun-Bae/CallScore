@@ -74,7 +74,55 @@ def search_portal():
 def parsing():
     with open("media/userXML/crypto.html", "w", encoding="utf8") as f:
         f.write(driver.page_source)
+    global soup
     soup = BeautifulSoup(driver.page_source, "lxml")
+
+def search_score():
+    allScore = {}
+    semester = ["classification", "class_num", "subject", "div_class", "credit", "grade", "score", "rating"]
+    figure = ["req_credit","acq_creidt","rating_cnt","rating_avg","r_scores","r_scores_avg","per_score"]
+
+    for i in range(16):
+        allScore[i] = {"name":"", "semester": {}, "figure": {},}
+
+        # semester(score)
+        for j in range(12):
+            try:
+                finds_text = soup.find_all(id=re.compile(
+                    'INFODIV01_INFODIV01_DG_GRID{0}_body_gridrow_._cell_._{1}GridCellTextContainerElement'.format(
+                        str(i).zfill(2), j)))
+
+                allScore[i]["semester"]['{}'.format(semester[j])] = [find_text.get_text().strip() for find_text in
+                                                                   finds_text]
+            except:
+                # 과목 끝
+                break
+
+        # name
+        try:
+            finds_text = soup.find(
+                id=re.compile('INFODIV01_INFODIV01_Title{}TextBox'.format(str(i).zfill(2)))).get_text().strip()
+            allScore[i]["name"] = finds_text
+        except:
+            # 학기 이름 끝
+            break
+
+        # figure (alL)
+        finds_text = soup.find(
+            id=re.compile('INFODIV01_INFODIV01_Sum{}TextBoxElement'.format(str(i).zfill(2)))).get_text().replace(" ", "").split(
+            "*")
+        finds_text = list(filter(None, finds_text)) # 공백 생겨서 없애는 과정
+
+        for f in range(len(finds_text)):
+            pattern1 = re.compile("\d+.\d+")
+            finds_text[f] = pattern1.search(finds_text[f]).group()
+            allScore[i]["figure"]["{}".format(figure[f])] = finds_text[f]
+
+        return allScore
+
+
+
+
 
 def delete_xml():
     file_path = 'media/userXML/crypto.html'
@@ -83,13 +131,18 @@ def delete_xml():
 
 # main
 def getStudentScore(id, passwd):
+    allScore = {}
     while(True):
         try:
             driver_setting()
             login(id, passwd)
             search_portal()
             parsing()
+            allScore = search_score()
             delete_xml()
             break
         except Exception as e:
-            print("예외 발생 : " + e)
+            print("예외 : ")
+            print(e)
+
+    return allScore
