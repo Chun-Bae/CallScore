@@ -95,6 +95,7 @@ def search_score():
                 allScore[i]["semester"]['{}'.format(semester[j])] = [find_text.get_text().strip() for find_text in
                                                                    finds_text]
             except:
+                print("과목 끝")
                 # 과목 끝
                 break
 
@@ -104,6 +105,7 @@ def search_score():
                 id=re.compile('INFODIV01_INFODIV01_Title{}TextBox'.format(str(i).zfill(2)))).get_text().strip()
             allScore[i]["name"] = finds_text
         except:
+            print("학기 이름 끝")
             # 학기 이름 끝
             break
 
@@ -144,5 +146,6 @@ def getStudentScore(id, passwd):
         except Exception as e:
             print("예외 : ")
             print(e)
-
+        finally:
+            driver.quit()
     return allScore

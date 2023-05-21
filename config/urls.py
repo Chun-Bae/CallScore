@@ -20,12 +20,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from config.views import login
+from config.views import get_score
 from callscore.views import viewScores
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',login),
-    path('view/',viewScores)
+    path('view/',viewScores),
+    path('get_score/', get_score, name='get_score'),
 ]
 
 urlpatterns += static(
