@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from module.getScore import getStudentScore
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
+from module.getScore import getStudentScore
+from module.processingScore import transformChartData
 def login(request):
     if request.method == "POST":
         # migration migrates를 해야 session table이 생성됨
@@ -23,7 +24,8 @@ def get_score(request):
         del request.session['studentID']
         del request.session['passwd']
         print(allScore)
+        newScore = transformChartData(allScore)
+        request.session['newScore'] = newScore
 
-        request.session['allScore'] = allScore
-
-        return JsonResponse({})
+        # chart를 위해 js에서 사용
+        return JsonResponse({'newScore':newScore})

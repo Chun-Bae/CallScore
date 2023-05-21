@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 
 def viewScores(request):
-    allScore = request.session.get('allScore')
-    return render(request, "viewScores.html", {'allScore': allScore})
+    newScore = request.session.get('newScore')
+    return render(request, "viewScores.html", {'newScore': newScore})
