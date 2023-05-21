@@ -109,7 +109,7 @@ def search_score():
             # 학기 이름 끝
             break
 
-        # figure (alL)
+        # figure (all)
         finds_text = soup.find(
             id=re.compile('INFODIV01_INFODIV01_Sum{}TextBoxElement'.format(str(i).zfill(2)))).get_text().replace(" ", "").split(
             "*")
@@ -119,8 +119,9 @@ def search_score():
             pattern1 = re.compile("\d+.\d+")
             finds_text[f] = pattern1.search(finds_text[f]).group()
             allScore[i]["figure"]["{}".format(figure[f])] = finds_text[f]
-
-        return allScore
+    
+    allScore.popitem() # try 예외 처리에서 생성된 빈 공간 제거
+    return allScore
 
 
 
