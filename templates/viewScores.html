@@ -91,9 +91,10 @@
         <div class="col">
             <div data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
                 
+                
                 <div id="list-item-1" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
-                        <canvas id="myChart1"></canvas>
+                        <canvas id="Chart0"></canvas>
                         <div class="center-label">4.21</div>
                     </div>
 
@@ -186,7 +187,7 @@
 
                 <div id="list-item-2" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
-                        <canvas id="myChart2"></canvas>
+                        <canvas id="Chart1"></canvas>
                         <div class="center-label">2.44</div>
                     </div>
 
@@ -280,7 +281,7 @@
 
                 <div id="list-item-3" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
-                        <canvas id="myChart3"></canvas>
+                        <canvas id="Chart2"></canvas>
                         <div class="center-label">3.36</div>
                     </div>
 
@@ -372,7 +373,7 @@
 
                 <div id="list-item-4" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
-                        <canvas id="myChart4"></canvas>
+                        <canvas id="Chart3"></canvas>
                         <div class="center-label">1.22</div>
                     </div>
 
@@ -472,69 +473,76 @@
         const chartBackgroundColor = ['#8FBA82','#7BAA81','#70A181','#669981','#558B81','#4C8380','#3B7680','#347080','#2C6980','#245669'];
         console.log(newScore);
 
-        var gradeCount = {};
+        var chartData = {};
         for(var i = 0; i < Object.keys(newScore).length; i++){
-            gradeCount[i] = {};
+            chartData[i] = {};
+            chartData[i]['gradeCount'] = {};
             gradelabels.forEach(item=>{
-                gradeCount[i][item] = 0;
+                chartData[i]['gradeCount'][item] = 0;
             });
             newScore[i]['Grade'].forEach(grade => {
                 gradelabels.forEach(circuitgrade => {
                     if(grade==circuitgrade){
-                        gradeCount[i][circuitgrade]++;
+                        chartData[i]['gradeCount'][circuitgrade]++;
                     }
                 });
             });
+            
+            chartData[i]['elementId'] = "Chart" + i;
         }
 
-        console.log(gradeCount);
+        
+
+
+        console.log(chartData);
         
         // 커스텀 플러그인을 등록 
         Chart.register(ChartDataLabels);            
-        // Graphs
-        const ctx1 = document.getElementById('myChart1')
         
-        const myChart1 = new Chart(ctx1, {
-            plugins: [ChartDataLabels],
-            type: 'doughnut',
-            data: {
-            labels: gradelabels,
-            datasets: [{
-                data: Object.values(gradeCount[2]),
-                lineTension: 0,
-                backgroundColor: chartBackgroundColor,
-                borderColor: '#FFFFFF',
-                borderWidth: 1,
-                pointBackgroundColor: '#FFFFFF'
-            }]
-            },
-            options: {
-                cutoutPercentage: 50,
-                plugins: {                    
-                    datalabels: {
-                      color: '#434343',
-                      font: {
-                        size: 25,
-                        weight: 'bold',
+        for (var i = 0; i < Object.keys(chartData).length; i++) {
+            const ctx = document.getElementById(chartData[i]['elementId'])
+            
+            const ChartCard = new Chart(ctx, {
+                plugins: [ChartDataLabels],
+                type: 'doughnut',
+                data: {
+                labels: gradelabels,
+                datasets: [{
+                    data: Object.values(chartData[i]['gradeCount']),
+                    lineTension: 0,
+                    backgroundColor: chartBackgroundColor,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 1,
+                    pointBackgroundColor: '#FFFFFF'
+                }]
+                },
+                options: {
+                    cutoutPercentage: 50,
+                    plugins: {                    
+                        datalabels: {
+                        color: '#434343',
+                        font: {
+                            size: 25,
+                            weight: 'bold',
+                            
+                        },
+                        formatter: function (value, context) {
+                            if(value!=0)
+                                return context.chart.data.labels[context.dataIndex];
+                            else
+                                return null;
+                        },
+                        },
                         
-                      },
-                      formatter: function (value, context) {
-                        if(value!=0)
-                            return context.chart.data.labels[context.dataIndex];
-                        else
-                            return null;
-                      },
                     },
                     
-                },
-                  
-                legend: {
-                    display: true
-                },
-                
-            }
-        });
-        
+                    legend: {
+                        display: true
+                    },
+                    
+                }
+            });
+        }
     </script>
     <script src="{% static 'js/scoreScrollspy.js' %}"></script>
 </body>
