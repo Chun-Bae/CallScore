@@ -20,12 +20,13 @@ def get_score(request):
     if request.method == 'POST':
         studentID = request.session.get('studentID')
         passwd = request.session.get('passwd')
+
         allScore = getStudentScore(studentID, passwd)
         del request.session['studentID']
         del request.session['passwd']
         print(allScore)
+
         newScore = transformChartData(allScore)
         request.session['newScore'] = newScore
 
-        # chart를 위해 js에서 사용
-        return JsonResponse({'newScore':newScore})
+        return JsonResponse({})
