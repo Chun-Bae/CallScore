@@ -26,7 +26,7 @@ from callscore.views import viewScores
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',login),
-    path('view/',viewScores),
+    path('view/',viewScores, name='viewScores'),
     path('get_score/', get_score, name='get_score'),
 ]
 

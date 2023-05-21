@@ -4,5 +4,7 @@ from django.shortcuts import render
 
 
 def viewScores(request):
-
-    return render(request, "allScores.html")
+    allScore = request.session.get('allScore')
+    print("제발 나와라")
+    print(allScore)
+    return render(request, "viewScores.html", {'allScore': allScore})

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
 from module.getScore import getStudentScore
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -24,4 +23,7 @@ def get_score(request):
         del request.session['studentID']
         del request.session['passwd']
         print(allScore)
-        return JsonResponse({'allScore': allScore})
+
+        request.session['allScore'] = allScore
+
+        return JsonResponse({})
