@@ -4,8 +4,9 @@ def transformChartData(allScore):
     newScore = {}
 
     for i in range(len(allScore.keys())):
-        newScore[i] = {"Course": [], "CreditHours": [], "Grade": [], "Score": [], "GradePoints": [], "TotalGrade": 0,"AvgScore": 0, "AvgGradePoints": 0, }
+        newScore[i] = {"Name":"","Course": [], "CreditHours": [], "Grade": [], "Score": [], "GradePoints": [], "TotalGrade": 0,"AvgScore": 0, "AvgGradePoints": 0 }
 
+        newScore[i]["Name"] = allScore[i]["name"]
         newScore[i]["Course"] = [subject for subject in allScore[i]["semester"]["subject"]]
         newScore[i]["CreditHours"] = [credit for credit in allScore[i]["semester"]["credit"]]
         newScore[i]["Grade"] = [grade for grade in allScore[i]["semester"]["grade"]]

@@ -71,14 +71,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle bg-success text-center" style="width:350px;" data-bs-toggle="dropdown" href="#" role="button" id="navbarDropdown" aria-expanded="false">전체보기</a>
                         <ul class="dropdown-menu text-center" style="width:350px;" aria-labelledby="navbarDropdown">
-
-                            <li><a class="dropdown-item text-center" href="#list-item-1">전체보기</a></li>
-                            <li><a class="dropdown-item text-center" href="#list-item-2">2022 겨울학기</a></li>
-                        
-                            <li><a class="dropdown-item text-center" href="#list-item-3">2022 2학기</a></li>
-
-                            <li><a class="dropdown-item text-center" href="#list-item-4">2020 1학기</a></li>
-
+                            {% for semester in newScore.values %}                            
+                            <li><a class="dropdown-item text-center" href="#list-item-{{forloop.counter}}">{{ semester.Name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
                 </ul>
@@ -91,14 +86,14 @@
         <div class="col">
             <div data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
                 
-                
-                <div id="list-item-1" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
+                {% for semester in newScore.values %}
+
+                <div id="list-item-{{ semester }}" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
                         <canvas id="Chart0"></canvas>
                         <div class="center-label">4.21</div>
                     </div>
-
-                    <h2>전체학기</h2>
+                    <h2 style="font-size:26px;">{{semester.Name}}</h2>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead class="table-dark">            
@@ -111,354 +106,56 @@
                                     <th scope="col">학점</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">0</th>
-                                    <td>동양철학개론</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>94.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>글쓰기심화</td>
-                                    <td>2</td>
-                                    <td>A+</td>
-                                    <td>92.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>영어회화1</td>
-                                    <td>2</td>
-                                    <td>C+</td>
-                                    <td>92.1</td>
-                                    <td>2.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>지방자치와지방재정</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>97.6</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>웹해킹보안및실습</td>
-                                    <td>3</td>
-                                    <td>A0</td>
-                                    <td>89.2</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>유닉스시스템관제및보안</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>98.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>디바이스드라이버및실습</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>92.2</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
+                                
+                                <tbody>                                    
+                                    {% for row in semester.Course %}
+                                    {% if forloop.counter <= row|length %}
+                                    <tr>                                
+                                        <th scope="col">{{forloop.counter}}</th>
+                                        {% for key,value in semester.items %}
+                                        {% if forloop.counter >= 2 and forloop.counter <= 6 %}
+                                        
+                                        <td id="value{{semester}}"> {{value}}</td>  
+                                         
+                                        
+                                        {% endif %}                                      
+                                        {%endfor%}        
+                                    
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %} 
+                                    
+                                    {% comment %} <tr>                                
+                                        <th scope="col">1</th>
+                                        {% for key,value in semester.items %}
+                                        <td>{{value.1}}</td>                                        
+                                        {%endfor%}        
+                                    </tr>
+                                    <tr>                                
+                                        <th scope="col">2</th>
+                                        {% for key,value in semester.items %}
+                                        <td>{{value.0}}</td>                                        
+                                        {%endfor%}        
+                                    </tr> {% endcomment %}
+                                
+                                
+                               
+                               
+                                
+                                <td>
                                     <th scope="col">총계</th>
                                     <th scope="col"> - </th>
                                     <th scope="col">19</th>
                                     <th scope="col">-</th>
                                     <th scope="col">93.8</th>
                                     <th scope="col">4.21</th>
-                                </tr>
+                                </td>
                                 </tbody>
                             </table>
                         </div>
                 </div>
-
-
-
-
-
-                <div id="list-item-2" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
-                    <div class="chart-container">
-                        <canvas id="Chart1"></canvas>
-                        <div class="center-label">2.44</div>
-                    </div>
-
-                    <h2>2022년도 겨울학기</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead class="table-dark">            
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">과목</th>
-                                    <th scope="col">학점 수</th>
-                                    <th scope="col">등급</th>
-                                    <th scope="col">점수</th>
-                                    <th scope="col">학점</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">0</th>
-                                    <td>동양철학개론</td>
-                                    <td>3</td>
-                                    <td>C+</td>
-                                    <td>94.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>글쓰기심화</td>
-                                    <td>2</td>
-                                    <td>B+</td>
-                                    <td>92.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>영어회화1</td>
-                                    <td>2</td>
-                                    <td>C+</td>
-                                    <td>92.1</td>
-                                    <td>2.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>지방자치와지방재정</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>97.6</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>웹해킹보안및실습</td>
-                                    <td>3</td>
-                                    <td>A0</td>
-                                    <td>89.2</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>유닉스시스템관제및보안</td>
-                                    <td>3</td>
-                                    <td>B0</td>
-                                    <td>98.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>디바이스드라이버및실습</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>92.2</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col">총계</th>
-                                    <th scope="col"> - </th>
-                                    <th scope="col">19</th>
-                                    <th scope="col">-</th>
-                                    <th scope="col">93.8</th>
-                                    <th scope="col">4.21</th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
-
-
                 
-
-
-
-                <div id="list-item-3" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
-                    <div class="chart-container">
-                        <canvas id="Chart2"></canvas>
-                        <div class="center-label">3.36</div>
-                    </div>
-
-                    <h2>2022년도 2학기</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead class="table-dark">            
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">과목</th>
-                                    <th scope="col">학점 수</th>
-                                    <th scope="col">등급</th>
-                                    <th scope="col">점수</th>
-                                    <th scope="col">학점</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">0</th>
-                                    <td>동양철학개론</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>94.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>글쓰기심화</td>
-                                    <td>2</td>
-                                    <td>A+</td>
-                                    <td>92.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>영어회화1</td>
-                                    <td>2</td>
-                                    <td>C+</td>
-                                    <td>92.1</td>
-                                    <td>2.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>지방자치와지방재정</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>97.6</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>웹해킹보안및실습</td>
-                                    <td>3</td>
-                                    <td>A0</td>
-                                    <td>89.2</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>유닉스시스템관제및보안</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>98.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>디바이스드라이버및실습</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>92.2</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col">총계</th>
-                                    <th scope="col"> - </th>
-                                    <th scope="col">19</th>
-                                    <th scope="col">-</th>
-                                    <th scope="col">93.8</th>
-                                    <th scope="col">4.21</th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
-
-
-
-
-                <div id="list-item-4" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
-                    <div class="chart-container">
-                        <canvas id="Chart3"></canvas>
-                        <div class="center-label">1.22</div>
-                    </div>
-
-                    <h2>2020년도 1학기</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead class="table-dark">            
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">과목</th>
-                                    <th scope="col">학점 수</th>
-                                    <th scope="col">등급</th>
-                                    <th scope="col">점수</th>
-                                    <th scope="col">학점</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">0</th>
-                                    <td>동양철학개론</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>94.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>글쓰기심화</td>
-                                    <td>2</td>
-                                    <td>A+</td>
-                                    <td>92.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>영어회화1</td>
-                                    <td>2</td>
-                                    <td>C+</td>
-                                    <td>92.1</td>
-                                    <td>2.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>지방자치와지방재정</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>97.6</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>웹해킹보안및실습</td>
-                                    <td>3</td>
-                                    <td>A0</td>
-                                    <td>89.2</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>유닉스시스템관제및보안</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>98.5</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>디바이스드라이버및실습</td>
-                                    <td>3</td>
-                                    <td>A+</td>
-                                    <td>92.2</td>
-                                    <td>4.5</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col">총계</th>
-                                    <th scope="col"> - </th>
-                                    <th scope="col">19</th>
-                                    <th scope="col">-</th>
-                                    <th scope="col">93.8</th>
-                                    <th scope="col">4.21</th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
+                {% endfor %}
             </div>
           
         </div>
@@ -491,6 +188,10 @@
             chartData[i]['elementId'] = "Chart" + i;
         }
 
+        function tableValue(){
+            for(var i = 0; i<Object.keys(newScore).length; i++)
+            document.getElementById('value').value = "{{value"+i+"}}";
+        }
         
 
 
