@@ -21,6 +21,7 @@ from django.contrib import admin
 from django.urls import path
 from config.views import login
 from config.views import get_score
+from config.views import del_score
 from callscore.views import viewScores
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     path('',login),
     path('view/',viewScores, name='viewScores'),
     path('get_score/', get_score, name='get_score'),
+    path('del_score/', del_score, name='del_score'),
 ]
 
 urlpatterns += static(

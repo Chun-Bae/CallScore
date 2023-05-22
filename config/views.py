@@ -22,11 +22,15 @@ def get_score(request):
         passwd = request.session.get('passwd')
 
         allScore = getStudentScore(studentID, passwd)
-        del request.session['studentID']
-        del request.session['passwd']
-        print(allScore)
-
         newScore = transformChartData(allScore)
+
         request.session['newScore'] = newScore
 
         return JsonResponse({})
+
+@csrf_exempt
+def del_score(request):
+    del request.session['newScore']
+    del request.session['studentID']
+    del request.session['passwd']
+    return JsonResponse({})

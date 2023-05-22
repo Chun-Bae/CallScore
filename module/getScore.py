@@ -19,16 +19,14 @@ import os
 
 def driver_setting():
     global driver
-    driver = Options()
-    driver.add_experimental_option("detach", True)  # 브라우저 바로 닫힘 방지
-    driver.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 메시지 제거
-    driver.add_argument('--blink-settings=imagesEnabled=false')
-    driver.add_argument("window-size=1920x1080")
-    driver.add_argument('headless')
-    driver.headless = True
-    driver.add_argument(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36")
-    driver = webdriver.Chrome()
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+
+    options = Options()
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 메시지 제거
+    options.add_argument('--blink-settings=imagesEnabled=false')
+    # options.add_argument('headless')
+    options.add_argument('user-agent='+ user_agent)
+    driver = webdriver.Chrome(options=options)
 
 
 def login(id, passwd):
