@@ -93,8 +93,8 @@
 
                 <div id="list-item-{{ semester }}" class="shadow-lg p-3 m-5 bg-body rounded mx-auto text-center"  style="border-radius: 50px;width:400px;font-size: 12px;">
                     <div class="chart-container">
-                        <canvas id="Chart0"></canvas>
-                        <div class="center-label">4.21</div>
+                        <canvas id="Chart{{forloop.counter0}}"></canvas>
+                        <div class="center-label">{{semester.AvgGradePoints}}</div>
                     </div>
                     <h2 style="font-size:26px;">{{semester.Name}}</h2>
                         <div class="table-responsive">
@@ -111,6 +111,7 @@
                                 </thead>
                                 
                                 <tbody>
+                                    
 
                                     {% for row in semester.Course %}
                                     {% if forloop.counter <= row|length %}
@@ -128,14 +129,14 @@
                                     {% endif %}
                                     {% endfor %} 
 
-                                <td>
-                                    <th scope="col">총계</th>
-                                    <th scope="col"> - </th>
-                                    <th scope="col">19</th>
-                                    <th scope="col">-</th>
-                                    <th scope="col">93.8</th>
-                                    <th scope="col">4.21</th>
-                                </td>
+                                    <tr>
+                                        <th scope="col">총계</th>
+                                        <th scope="col"> - </th>
+                                        <th scope="col">{{semester.TotalGrade}}</th>
+                                        <th scope="col">-</th>
+                                        <th scope="col">{{semester.AvgScore}}</th>
+                                        <th scope="col">{{semester.AvgGradePoints}}</th>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -180,53 +181,54 @@
 
         console.log(chartData);
         
-        // 커스텀 플러그인을 등록 
-        Chart.register(ChartDataLabels);            
-        
-        for (var i = 0; i < Object.keys(chartData).length; i++) {
-            const ctx = document.getElementById(chartData[i]['elementId'])
-            
-            const ChartCard = new Chart(ctx, {
-                plugins: [ChartDataLabels],
-                type: 'doughnut',
-                data: {
-                labels: gradelabels,
-                datasets: [{
-                    data: Object.values(chartData[i]['gradeCount']),
-                    lineTension: 0,
-                    backgroundColor: chartBackgroundColor,
-                    borderColor: '#FFFFFF',
-                    borderWidth: 1,
-                    pointBackgroundColor: '#FFFFFF'
-                }]
-                },
-                options: {
-                    cutoutPercentage: 50,
-                    plugins: {                    
-                        datalabels: {
-                        color: '#434343',
-                        font: {
-                            size: 25,
-                            weight: 'bold',
+        // 커스텀 플러그인을 등록                    
+        document.addEventListener('DOMContentLoaded', function() {
+            Chart.register(ChartDataLabels); 
+            for (var i = 0; i < Object.keys(chartData).length; i++) {
+                const ctx = document.getElementById(chartData[i]['elementId'])
+                
+                const ChartCard = new Chart(ctx, {
+                    plugins: [ChartDataLabels],
+                    type: 'doughnut',
+                    data: {
+                    labels: gradelabels,
+                    datasets: [{
+                        data: Object.values(chartData[i]['gradeCount']),
+                        lineTension: 0,
+                        backgroundColor: chartBackgroundColor,
+                        borderColor: '#FFFFFF',
+                        borderWidth: 1,
+                        pointBackgroundColor: '#FFFFFF'
+                    }]
+                    },
+                    options: {
+                        cutoutPercentage: 50,
+                        plugins: {                    
+                            datalabels: {
+                            color: '#434343',
+                            font: {
+                                size: 25,
+                                weight: 'bold',
+                                
+                            },
+                            formatter: function (value, context) {
+                                if(value!=0)
+                                    return context.chart.data.labels[context.dataIndex];
+                                else
+                                    return null;
+                            },
+                            },
                             
                         },
-                        formatter: function (value, context) {
-                            if(value!=0)
-                                return context.chart.data.labels[context.dataIndex];
-                            else
-                                return null;
-                        },
+                        
+                        legend: {
+                            display: true
                         },
                         
-                    },
-                    
-                    legend: {
-                        display: true
-                    },
-                    
-                }
-            });
-        }
+                    }
+                });
+            }
+    });
     </script>
     <script src="{% static 'js/scoreScrollspy.js' %}"></script>
 </body>
