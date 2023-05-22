@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 def viewScores(request):
     newScore = request.session.get('newScore')
 
+
     if newScore is None:
         return redirect("/")
 
