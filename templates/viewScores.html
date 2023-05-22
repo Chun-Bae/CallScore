@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_template %}
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -107,41 +110,24 @@
                                 </tr>
                                 </thead>
                                 
-                                <tbody>                                    
+                                <tbody>
+
                                     {% for row in semester.Course %}
                                     {% if forloop.counter <= row|length %}
-                                    <tr>                                
+                                    <tr>
                                         <th scope="col">{{forloop.counter}}</th>
-                                        {% for key,value in semester.items %}
+                                        {% for value in semester.values %}
                                         {% if forloop.counter >= 2 and forloop.counter <= 6 %}
-                                        
-                                        <td id="value{{semester}}"> {{value}}</td>  
-                                         
-                                        
-                                        {% endif %}                                      
+                                                                                
+                                        <td> {{ value | get_item:forloop.parentloop.counter0 }}</td>
+
+                                        {% endif %}                                            
                                         {%endfor%}        
                                     
                                     </tr>
                                     {% endif %}
                                     {% endfor %} 
-                                    
-                                    {% comment %} <tr>                                
-                                        <th scope="col">1</th>
-                                        {% for key,value in semester.items %}
-                                        <td>{{value.1}}</td>                                        
-                                        {%endfor%}        
-                                    </tr>
-                                    <tr>                                
-                                        <th scope="col">2</th>
-                                        {% for key,value in semester.items %}
-                                        <td>{{value.0}}</td>                                        
-                                        {%endfor%}        
-                                    </tr> {% endcomment %}
-                                
-                                
-                               
-                               
-                                
+
                                 <td>
                                     <th scope="col">총계</th>
                                     <th scope="col"> - </th>
@@ -188,10 +174,7 @@
             chartData[i]['elementId'] = "Chart" + i;
         }
 
-        function tableValue(){
-            for(var i = 0; i<Object.keys(newScore).length; i++)
-            document.getElementById('value').value = "{{value"+i+"}}";
-        }
+        
         
 
 
