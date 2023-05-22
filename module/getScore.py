@@ -13,6 +13,10 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import re
 
+#except
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.common.exceptions import NoSuchWindowException
+
 # etc
 import hashlib
 import time
@@ -136,7 +140,8 @@ def delete_xml(id):
 # main
 def getStudentScore(id, passwd):
     allScore = {}
-    while(True):
+    isContiue = True
+    while(isContiue):
         try:
             driver_setting()
             login(id, passwd)
@@ -145,9 +150,19 @@ def getStudentScore(id, passwd):
             allScore = search_score()
             delete_xml(id)
             break
+
+        except UnexpectedAlertPresentException:
+            print("95%확률로 아이디 또는 비번 오류!")
+            isContiue = False
+
+
+        except NoSuchWindowException:
+            print("창이 없다고 한다...")
+            isContiue = False
+
         except Exception as e:
             print("예외 : ")
-            print(e)
+            print({e})
         finally:
             driver.quit()
     return allScore
