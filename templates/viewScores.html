@@ -157,7 +157,7 @@
         console.log(newScore);
 
         var chartData = {};
-        for(var i = 0; i < Object.keys(newScore).length; i++){
+        for(var i = 1; i < Object.keys(newScore).length; i++){
             chartData[i] = {};
             chartData[i]['gradeCount'] = {};
             gradelabels.forEach(item=>{
@@ -183,7 +183,7 @@
         // 커스텀 플러그인을 등록                    
         document.addEventListener('DOMContentLoaded', function() {
             Chart.register(ChartDataLabels); 
-            for (var i = 0; i < Object.keys(chartData).length; i++) {
+            for (var i = 1; i < Object.keys(chartData).length+1; i++) {
                 const ctx = document.getElementById(chartData[i]['elementId'])
                 
                 const ChartCard = new Chart(ctx, {
