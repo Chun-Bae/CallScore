@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 import re
 
 # etc
+import hashlib
 import time
 import os
 
@@ -69,8 +70,9 @@ def search_portal():
     time.sleep(0.3)
 
 
-def parsing():
-    with open("media/userXML/crypto.html", "w", encoding="utf8") as f:
+def parsing(id):
+    filename = hashlib.md5(id.encode()).hexdigest()
+    with open(f'media/userXML/{filename}.html', "w", encoding="utf8") as f:
         f.write(driver.page_source)
     global soup
     soup = BeautifulSoup(driver.page_source, "lxml")
@@ -125,8 +127,9 @@ def search_score():
 
 
 
-def delete_xml():
-    file_path = 'media/userXML/crypto.html'
+def delete_xml(id):
+    filename = hashlib.md5(id.encode()).hexdigest()
+    file_path = f'media/userXML/{filename}.html'
     if os.path.isfile(file_path):
         os.remove(file_path)
 
@@ -138,9 +141,9 @@ def getStudentScore(id, passwd):
             driver_setting()
             login(id, passwd)
             search_portal()
-            parsing()
+            parsing(id)
             allScore = search_score()
-            delete_xml()
+            delete_xml(id)
             break
         except Exception as e:
             print("예외 : ")
