@@ -161,8 +161,8 @@ def getStudentScore(id, passwd):
             isContiue = False
 
         except Exception as e:
-            print("예외 : ")
-            print({e})
+            print("예외 : "+ {e})
+            print()
         finally:
             driver.quit()
     return allScore
