@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 from module.getScore import getStudentScore
 from module.processingScore import transformChartData
 
+import asyncio
 
 def login(request):
     if request.method == "POST" and request.session['post'] is False:
@@ -29,17 +30,24 @@ def loading(request):
 
 @csrf_exempt
 def get_score(request):
-    if request.method == 'POST' and request.session.get('post') is True:
-        request.session['post'] = False
-        studentID = request.session.get('studentID')
-        passwd = request.session.get('passwd')
+    try:
+        if request.method == 'POST' and request.session.get('post') is True:
+            request.session['post'] = False
+            studentID = request.session.get('studentID')
+            passwd = request.session.get('passwd')
 
-        allScore = getStudentScore(studentID, passwd)
-        newScore = transformChartData(allScore)
+            allScore = getStudentScore(studentID, passwd)
+            newScore = transformChartData(allScore)
 
-        request.session['newScore'] = newScore
+            request.session['newScore'] = newScore
 
+            return JsonResponse({})
+
+    except Exception as e:
+        print(f"예외 : {str({e})}")
+        print()
         return JsonResponse({})
+
 
 @csrf_exempt
 def del_score(request):

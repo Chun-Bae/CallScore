@@ -8,6 +8,7 @@ $(document).ready(function(){
             location.href = '/view';
         },
         error: function(error) {
+            location.href = '/';
             console.log(error);
         }
     });

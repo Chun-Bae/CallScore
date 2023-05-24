@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 # #BeautifulSoup && normalization
 from bs4 import BeautifulSoup
 import re
+import selenium_async
 
 #except
 from selenium.common.exceptions import UnexpectedAlertPresentException
@@ -19,10 +20,14 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium.common.exceptions import TimeoutException
 
+
+
 # etc
 import hashlib
 import time
 import os
+
+
 
 def driver_setting():
     global driver
@@ -33,6 +38,7 @@ def driver_setting():
     options.add_argument('--blink-settings=imagesEnabled=false')
     # options.add_argument('headless')
     options.add_argument('user-agent='+ user_agent)
+
     driver = webdriver.Chrome(options=options)
 
 
@@ -56,11 +62,11 @@ def search_portal():
     # 통합 정보 시스템 인증 절차 때문에 xml파일 파싱 불가. 새 탭을 여는 방식
     driver.get("https://itics.dju.ac.kr/main.do")
     driver.switch_to.window(driver.window_handles[0])
-    
+
     # 검색창 키워드 찾기
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "mainframe_waitwindow")))
     time.sleep(0.3)
-    
+
     # 성적 조회 창 접속
     search_keyword = driver.find_element(By.TAG_NAME,"input")
     search_keyword.click()
@@ -125,7 +131,7 @@ def search_score():
             pattern1 = re.compile("\d+.\d+")
             finds_text[f] = pattern1.search(finds_text[f]).group()
             allScore[i]["figure"]["{}".format(figure[f])] = finds_text[f]
-    
+
     allScore.popitem() # try 예외 처리에서 생성된 빈 공간 제거
     return allScore
 
@@ -139,11 +145,10 @@ def delete_xml(id):
     if os.path.isfile(file_path):
         os.remove(file_path)
 
-# main
 def getStudentScore(id, passwd):
     allScore = {}
     isContinue = True
-    while(isContinue):
+    while (isContinue):
         try:
             driver_setting()
             login(id, passwd)
@@ -170,7 +175,7 @@ def getStudentScore(id, passwd):
             isContinue = False
 
         except Exception as e:
-            print("예외 : "+ {e})
+            print("예외 : " + {e})
             print()
         finally:
             driver.quit()
