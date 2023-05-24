@@ -16,6 +16,8 @@ import re
 #except
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import InvalidSessionIdException
+from selenium.common.exceptions import TimeoutException
 
 # etc
 import hashlib
@@ -140,8 +142,8 @@ def delete_xml(id):
 # main
 def getStudentScore(id, passwd):
     allScore = {}
-    isContiue = True
-    while(isContiue):
+    isContinue = True
+    while(isContinue):
         try:
             driver_setting()
             login(id, passwd)
@@ -153,12 +155,19 @@ def getStudentScore(id, passwd):
 
         except UnexpectedAlertPresentException:
             print("95%확률로 아이디 또는 비번 오류!")
-            isContiue = False
+            isContinue = False
 
+        except InvalidSessionIdException:
+            print("너무 많이 실행함")
+            isContinue = False
 
         except NoSuchWindowException:
             print("창이 없다고 한다...")
-            isContiue = False
+            isContinue = False
+
+        except TimeoutException:
+            print("시간초과 오류(점검페이지)")
+            isContinue = False
 
         except Exception as e:
             print("예외 : "+ {e})
