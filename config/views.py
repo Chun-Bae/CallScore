@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 from module.getScore import getStudentScore
 from module.processingScore import transformChartData
 
+
 import asyncio
 
 def login(request):
@@ -44,7 +45,7 @@ def get_score(request):
             return JsonResponse({})
 
     except Exception as e:
-        print(f"예외 : {str({e})}")
+        print(f"예외(config.view.get_score) : {str({e})}")
         print()
         return JsonResponse({})
 

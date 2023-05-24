@@ -4,7 +4,6 @@ $(document).ready(function(){
         type: 'POST',
         dataType: 'json',
         success: function (data) {
-            allScore = data;
             location.href = '/view';
         },
         error: function(error) {

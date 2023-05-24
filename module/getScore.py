@@ -20,17 +20,17 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium.common.exceptions import TimeoutException
 
-
+#
+from celery import shared_task
 
 # etc
 import hashlib
 import time
 import os
 
+@shared_task
+def get_selenium(id, passwd, url):
 
-
-def driver_setting():
-    global driver
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
     options = Options()
@@ -42,8 +42,8 @@ def driver_setting():
     driver = webdriver.Chrome(options=options)
 
 
-def login(id, passwd):
-    driver.get("https://portal.dju.ac.kr/index.jsp")
+
+    driver.get(url)
 
     # 포탈 접속 입력
     id_tag = driver.find_element(By.CLASS_NAME, "id_input1")
@@ -54,7 +54,7 @@ def login(id, passwd):
     time.sleep(0.5)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='homeLink']")))
 
-def search_portal():
+
     # 통합 정보 시스템 접속
     driver.find_element(By.XPATH, "//*[@id='homeLink']").click()
     time.sleep(0.3)
@@ -82,14 +82,14 @@ def search_portal():
     time.sleep(0.3)
 
 
-def parsing(id):
+
     filename = hashlib.md5(id.encode()).hexdigest()
     with open(f'media/userXML/{filename}.html', "w", encoding="utf8") as f:
         f.write(driver.page_source)
-    global soup
+
     soup = BeautifulSoup(driver.page_source, "lxml")
 
-def search_score():
+    driver.quit()
     allScore = {}
     semester = ["classification", "class_num", "subject", "div_class", "credit", "grade", "score", "rating"]
     figure = ["req_credit","acq_creidt","rating_cnt","rating_avg","r_scores","r_scores_avg","per_score"]
@@ -133,29 +133,24 @@ def search_score():
             allScore[i]["figure"]["{}".format(figure[f])] = finds_text[f]
 
     allScore.popitem() # try 예외 처리에서 생성된 빈 공간 제거
-    return allScore
 
 
 
-
-
-def delete_xml(id):
+    #파일 삭제
     filename = hashlib.md5(id.encode()).hexdigest()
     file_path = f'media/userXML/{filename}.html'
     if os.path.isfile(file_path):
         os.remove(file_path)
+
+
+    return allScore
 
 def getStudentScore(id, passwd):
     allScore = {}
     isContinue = True
     while (isContinue):
         try:
-            driver_setting()
-            login(id, passwd)
-            search_portal()
-            parsing(id)
-            allScore = search_score()
-            delete_xml(id)
+            allScore = get_selenium(id, passwd,"https://portal.dju.ac.kr/index.jsp")
             break
 
         except UnexpectedAlertPresentException:
@@ -175,8 +170,8 @@ def getStudentScore(id, passwd):
             isContinue = False
 
         except Exception as e:
-            print("예외 : " + {e})
+            print(f"예외(module.getScore) : {str({e})}")
             print()
         finally:
-            driver.quit()
+            pass
     return allScore
