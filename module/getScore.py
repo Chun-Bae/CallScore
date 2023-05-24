@@ -20,7 +20,7 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium.common.exceptions import TimeoutException
 
-#
+# selenium tsak split
 from celery import shared_task
 
 # etc
@@ -33,10 +33,24 @@ def get_selenium(id, passwd, url):
 
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
 
+
     options = Options()
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 메시지 제거
+
+    # 쿠키는 사용 안하면 로그인이 안돼... 쿠키 1(사용) 캐시2(미사용)하면 제대로 작동안할 수 있다는데
+    # 용량 안차고 잘되긴 함.
+    #   Windows: C:\Users\[Your User Name]\AppData\Local\Google\Chrome\User Data\Default\Cache
+    #   MacOS: ~/Library/Caches/Google/Chrome/Default/Cache
+    #   Linux: ~/.cache/google-chrome/Default/Cache
+    options.add_argument('–incognito')
+    options.add_experimental_option("prefs", {"profile.managed_default_content_settings.cookies": 1,
+                                              "profile.default_content_setting_values.cache": 2})
+
+    # 불필요한 메시지 제거
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument('--blink-settings=imagesEnabled=false')
-    # options.add_argument('headless')
+
+    # NO monitering
+    options.add_argument('headless')
     options.add_argument('user-agent='+ user_agent)
 
     driver = webdriver.Chrome(options=options)
